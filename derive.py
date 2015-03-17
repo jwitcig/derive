@@ -1,50 +1,25 @@
 from general import delta_x, delta_y, slope
 from models import Point
 
-# point1 = Point(2, 3)
-# point2 = Point(5, 8)
-#
-# delta_x = delta_x(point1, point2)
-# x = point1.x
-# y = point1.y
-#
-# max_slope = slope(point1, point2) * 2
-#
-# x_increment = 0.0000000001
-# increment_count = delta_x / x_increment
-#
-# slope_increment = max_slope / increment_count
-#
-# curr_slope = slope_increment
-#
-# while curr_slope <= max_slope:
-#     x += x_increment
-#     y += curr_slope * x_increment
-#
-#     curr_slope += slope_increment
-#
-# print y
+def calc_point(target, point1=None, point2=None):
+    """
+    Generates  smooth curve of constant second derivative between two points.
+    The point for the desired x value is returned.
+    """
+    dx = 1.0
 
-point1 = Point(2, 3)
-point2 = Point(5, 8)
+    delta_x = point2.x - point1.x
+    increment_count = delta_x / dx
+    target_delta_x = target - point1.x
 
-delta_x = delta_x(point1, point2)
-x = point1.x
-y = point1.y
+    max_slope = slope(point1, point2) * 2
+    dm = max_slope / increment_count
 
-max_slope = slope(point1, point2) * 2
+    init_slope = 0
 
-x_increment = 0.0000000001
-increment_count = delta_x / x_increment
+    avg_slope = (init_slope + dm*(target_delta_x/dx)) / 2
 
-slope_increment = max_slope / increment_count
-
-curr_slope = slope_increment
-
-while curr_slope <= max_slope:
-    x += x_increment
-    y += curr_slope * x_increment
-
-    curr_slope += slope_increment
-
-print y
+    x = target
+    y = (target_delta_x * avg_slope) + point1.y
+    result = Point(x, y)
+    return (result.x, result.y)
