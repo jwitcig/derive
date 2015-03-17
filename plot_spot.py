@@ -1,4 +1,4 @@
-from general import delta_x, delta_y, slope
+from general import slope
 from models import Point
 
 def calc_point(target, point1=None, point2=None):
